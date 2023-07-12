@@ -24,7 +24,7 @@ Para baixar as dependências do projeto apenas rode o comando:
     $ npm install
     
 ## 💿 &nbsp;&nbsp; Rodando o App
-## Renomeie o arquivo .env.exemple para .env
+## Renomeie o arquivo .env.example para .env
   $ node ace generate:key
 ### Cole a key gerada no arquivo .env  APP_KEY  
 
