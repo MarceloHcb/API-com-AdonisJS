@@ -24,7 +24,11 @@ Para baixar as dependências do projeto apenas rode o comando:
     $ npm install
     
 ## 💿 &nbsp;&nbsp; Rodando o App
-Para iniciar o app, apenas utilize o comando:
+## Renomeie o arquivo .env.exemple para .env
+  $ node ace generate:key
+### Cole a key gerada no arquivo .env  APP_KEY  
+
+Para iniciar o app utilize o comando:
 
     $ node ace serve --watch
 
