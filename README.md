@@ -1,6 +1,12 @@
 # API RESTful com AdonisJS
 
 Esse projeto utiliza AdonisJS como framework de desenvolvimento web, SQLite como banco de dados e ESLint como ferramenta de linting para manter a qualidade do código. Além disso, o projeto também faz uso do Lucid ORM.
+<div>  
+<img src="https://img.shields.io/badge/adonisjs-%23220052.svg?style=for-the-badge&logo=adonisjs&logoColor=white"/>
+<img src="https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white"/>
+<img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)"/>
+<img src="https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white"/>
+</div>
 
 ## Requisitos
 
