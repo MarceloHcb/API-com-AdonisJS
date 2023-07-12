@@ -28,7 +28,7 @@ export default class MomentsController {
   }
 
   public async index({ response }: HttpContextContract) {
-    const moments = await Moment.all()
+    const moments = await Moment.query().preload('comments')
     response.status(200)
     return {
       data: moments,
@@ -37,6 +37,7 @@ export default class MomentsController {
 
   public async show({ params, response }: HttpContextContract) {
     const moment = await Moment.findOrFail(params.id)
+    await moment.load('comments')
     response.status(200)
     return {
       data: moment,
