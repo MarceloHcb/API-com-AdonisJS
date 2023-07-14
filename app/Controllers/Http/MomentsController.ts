@@ -1,7 +1,8 @@
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Moment from 'App/Models/Moment'
-import { v4 as uuidv4 } from 'uuid'
 import Application from '@ioc:Adonis/Core/Application'
+
+import { v4 as uuidv4 } from 'uuid'
 
 export default class MomentsController {
   private validationOptions = {
@@ -11,67 +12,85 @@ export default class MomentsController {
 
   public async store({ request, response }: HttpContextContract) {
     const body = request.body()
-    const moment = await Moment.create(body)
+
     const image = request.file('image', this.validationOptions)
 
     if (image) {
-      const imageName = `${uuidv4()}.${image.extname}`
-      await image.move(Application.tmpPath('uploads'), { name: imageName })
+      const imageName = `${uuidv4()}.${image!.extname}`
+
+      await image.move(Application.tmpPath('uploads'), {
+        name: imageName,
+      })
+
       body.image = imageName
     }
 
+    const moment = await Moment.create(body)
+
     response.status(201)
+
     return {
-      message: 'Moment created',
+      message: 'Momento criado com sucesso!',
       data: moment,
     }
   }
 
-  public async index({ response }: HttpContextContract) {
+  public async index() {
     const moments = await Moment.query().preload('comments')
-    response.status(200)
+
     return {
       data: moments,
     }
   }
 
-  public async show({ params, response }: HttpContextContract) {
+  public async show({ params }: HttpContextContract) {
     const moment = await Moment.findOrFail(params.id)
+
     await moment.load('comments')
-    response.status(200)
+
     return {
       data: moment,
     }
   }
 
-  public async update({ params, request, response }: HttpContextContract) {
-    const body = request.body()
+  public async destroy({ params }: HttpContextContract) {
     const moment = await Moment.findOrFail(params.id)
-    moment.merge(body)
+
+    await moment.delete()
+
+    return {
+      message: 'Momento excluído com sucesso!',
+      data: moment,
+    }
+  }
+
+  public async update({ params, request }: HttpContextContract) {
+    const body = request.body()
+
+    const moment = await Moment.findOrFail(params.id)
+
+    moment.title = body.title
+    moment.description = body.description
 
     if (moment.image !== body.image || !moment.image) {
       const image = request.file('image', this.validationOptions)
+
       if (image) {
-        const imageName = `${uuidv4()}.${image.extname}`
-        await image.move(Application.tmpPath('uploads'), { name: imageName })
+        const imageName = `${uuidv4()}.${image!.extname}`
+
+        await image.move(Application.tmpPath('uploads'), {
+          name: imageName,
+        })
+
         moment.image = imageName
       }
     }
 
     await moment.save()
-    response.status(200)
-    return {
-      message: 'Moment updated',
-      data: moment,
-    }
-  }
 
-  public async destroy({ params, response }: HttpContextContract) {
-    const moment = await Moment.findOrFail(params.id)
-    await moment.delete()
-    response.status(200)
     return {
-      message: 'Moment deleted',
+      message: 'Momento atualizado com sucesso!',
+      data: moment,
     }
   }
 }
